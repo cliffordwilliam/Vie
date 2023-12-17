@@ -14,6 +14,7 @@ const homeRouter = express.Router();
 
 // free
 homeRouter.post("/user", UserController.post);
+homeRouter.post("/user/login", UserController.login);
 
 // token guard
 homeRouter.use(Middleware.tokenGuard);

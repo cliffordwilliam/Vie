@@ -10,7 +10,7 @@ To access the API, register and log in to obtain a bearer token. Include this to
 
 ## Endpoints
 
-### 1. POST User
+### POST User
 
 #### Description
 
@@ -93,6 +93,86 @@ POST /user
   "message": "Internal server error. Please try again later."
 }
 ```
+
+---
+
+### POST Login User
+
+#### Description
+
+Generates a token for existing user in database.
+
+#### Endpoint
+
+POST /user/login
+
+#### Parameters
+
+**Body:**
+
+- **Username:** existing username in database.
+- **Password:** password of the existing username.
+
+#### Request
+
+```json
+{
+  "username": "Emily",
+  "password": "vivehodie"
+}
+```
+
+#### Responses
+
+200 OK
+
+```json
+{
+  "status": 200,
+  "msg": "Login successful.",
+  "token": "ey...",
+  "user": {
+    "id": 1,
+    "username": "Emily",
+    "email": null,
+    "profile_picture_url": null,
+    "bio": null,
+    "createdAt": "2023-12-17T04:23:54.918Z",
+    "updatedAt": "2023-12-17T04:23:54.918Z"
+  }
+}
+```
+
+400 Bad Request
+
+```json
+{
+  "error": {
+    "status": 400,
+    "msg": "Username is required."
+  }
+}
+```
+
+```json
+{
+  "error": {
+    "status": 400,
+    "msg": "Password is required."
+  }
+}
+```
+
+500 Internal Server Error
+
+```json
+{
+  "status": "error",
+  "message": "Internal server error. Please try again later."
+}
+```
+
+---
 
 ### 1. ??? ???
 
