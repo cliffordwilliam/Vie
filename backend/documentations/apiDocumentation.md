@@ -288,6 +288,101 @@ GET /user
 }
 ```
 
+### GET ID User
+
+#### Description
+
+Returns one user by their ID.
+
+#### Endpoint
+
+GET /user/:id
+
+#### Parameters
+
+**Params:**
+
+- **id:** 1.
+
+#### Request
+
+```json
+{
+  "id": 1
+}
+```
+
+#### Responses
+
+200 OK
+
+```json
+{
+  "status": 200,
+  "msg": "User successfully retrieved.",
+  "user": {
+    "id": 1,
+    "username": "Emily",
+    "email": null,
+    "profile_picture_url": null,
+    "bio": null,
+    "createdAt": "2023-12-17T04:23:54.918Z",
+    "updatedAt": "2023-12-17T04:23:54.918Z"
+  }
+}
+```
+
+400 Bad Request
+
+```json
+{
+  "error": {
+    "status": 400,
+    "msg": "User ID must be a valid integer."
+  }
+}
+```
+
+401 Unauthorized
+
+```json
+{
+  "error": {
+    "status": 401,
+    "msg": "Unauthorized. A valid bearer token is required for access."
+  }
+}
+```
+
+```json
+{
+  "error": {
+    "status": 401,
+    "msg": "invalid signature"
+  }
+}
+```
+
+404 Not Found
+
+```json
+{
+  "error": {
+    "status": 404,
+    "msg": "User not found. No user with the ID -1 exists."
+  }
+}
+```
+
+500 Internal Server Error
+
+```json
+{
+  "status": "error",
+  "message": "Internal server error. Please try again later."
+}
+```
+
 ### ??? ???
 
 #### Description

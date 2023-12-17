@@ -134,7 +134,7 @@ module.exports = class UserController {
       Helper.isInt(id, "User ID");
       // GET
       const foundUser = await User.findByPk(id, {
-        attiributes: { exclude: ["password"] },
+        attributes: { exclude: ["password"] },
       });
       // not found?
       if (!foundUser) {
