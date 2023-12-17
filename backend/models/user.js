@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const Helper = require("../helper");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -10,23 +11,23 @@ module.exports = (sequelize, DataTypes) => {
     {
       username: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
+        allowNull: false, // required
+        unique: true, // unique
         validate: {
-          notNull: { msg: "Username is required." },
-          notEmpty: { msg: "Username cannot be empty." },
+          notNull: { msg: "Username is required." }, // required
+          notEmpty: { msg: "Username cannot be empty." }, // required
         },
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false, // required
         validate: {
           len: {
-            args: [5, Infinity],
+            args: [5, Infinity], // char len min 5
             msg: "Password must be at least 5 characters long.",
           },
-          notNull: { msg: "Password is required." },
-          notEmpty: { msg: "Password cannot be empty." },
+          notNull: { msg: "Password is required." }, // required
+          notEmpty: { msg: "Password cannot be empty." }, // required
         },
       },
       email: {
@@ -53,9 +54,6 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      defaultScope: {
-        attributes: { exclude: ["password"] },
-      },
       sequelize,
       modelName: "User",
     }
@@ -63,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
 
   // Before create hash
   User.beforeCreate(async (user) => {
-    const hashedPassword = await Helper.passwordHasher(user.password);
+    const hashedPassword = await Helper.hashPassword(user.password);
     user.password = hashedPassword;
   });
 

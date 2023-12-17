@@ -18,18 +18,16 @@ Adds a new user to the database.
 
 #### Endpoint
 
-POST /user/post
+POST /user
 
 #### Parameters
 
-You need 2 credentials to create a user.
+**Body:**
 
-- **Username:** This must be unique.
-- **Password:** Anything you want.
+- **Username:** String, required, unique.
+- **Password:** String, required, characters length minimum is 5.
 
 #### Request
-
-Example of a request:
 
 ```json
 {
@@ -40,13 +38,20 @@ Example of a request:
 
 #### Responses
 
-200 OK
+201 Created
 
 ```json
 {
-  "status": "success",
-  "data": {
-    // Additional information about the new user
+  "status": 201,
+  "msg": "User successfully created.",
+  "user": {
+    "id": 1,
+    "username": "Emily",
+    "email": null,
+    "profile_picture_url": null,
+    "bio": null,
+    "createdAt": "2023-12-17T03:12:09.736Z",
+    "updatedAt": "2023-12-17T03:12:09.736Z"
   }
 }
 ```
@@ -55,32 +60,28 @@ Example of a request:
 
 ```json
 {
-  "status": "error",
-  "message": "Invalid request. Please check your input."
+    "error": {
+        "status": 400,
+        "msg": "Username is required."
+    }
 }
-
 {
-  "status": "error",
-  "message": "Username 'Emily' already exists. Please choose a different one."
+    "error": {
+        "status": 400,
+        "msg": "Username cannot be empty."
+    }
 }
-
-```
-
-401 Unauthorized
-
-```json
 {
-  "status": "error",
-  "message": "Unauthorized. Please provide a valid bearer token."
+    "error": {
+        "status": 400,
+        "msg": "Password is required."
+    }
 }
-```
-
-403 Forbidden
-
-```json
 {
-  "status": "error",
-  "message": "Forbidden. Insufficient permissions to create a new user."
+    "error": {
+        "status": 400,
+        "msg": "Password must be at least 5 characters long."
+    }
 }
 ```
 
@@ -93,61 +94,47 @@ Example of a request:
 }
 ```
 
-### 2. ??? model
+### 1. ??? ???
 
 #### Description
 
-?????.
+???
 
 #### Endpoint
 
-??? /model/???
+??? /???
 
 #### Parameters
 
-?????.
+**???:**
 
-- **????:** ?????.
+- **???:** ???.
 
 #### Request
 
-Example of a request:
-
-Body
-Param
-Query
-
 ```json
 {
-  "username": "Emily"
+  "???": "???"
 }
 ```
 
 #### Responses
 
+200 Created
+
+```json
+
+```
+
 200 OK
 
 ```json
-{
-  "status": "success",
-  "data": {
-    // Additional information about the new user
-  }
-}
+
 ```
 
 400 Bad Request
 
 ```json
-{
-  "status": "error",
-  "message": "Invalid request. Please check your input."
-}
-
-{
-  "status": "error",
-  "message": "Username 'Emily' already exists. Please choose a different one."
-}
 
 ```
 

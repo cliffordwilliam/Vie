@@ -6,11 +6,19 @@ module.exports = class UserController {
       // get body
       const { username, password } = req.body;
       // POST
-      const postedUser = await User.create({ username, password });
+      const postedUser = await User.create({
+        username,
+        password,
+      });
+      // GET
+      const foundUser = await User.findOne({
+        where: { username },
+        attributes: { exclude: ["password"] },
+      });
       res.status(201).json({
-        status: 200,
+        status: 201,
         msg: "User successfully created.",
-        user: postedUser,
+        user: foundUser,
       });
     } catch (error) {
       next(error);
