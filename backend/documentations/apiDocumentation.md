@@ -500,6 +500,82 @@ PUT /user
 }
 ```
 
+### PATCH User
+
+#### Description
+
+Logged in user update their own profile_picture_url.
+
+#### Endpoint
+
+PATCH /user
+
+#### Parameters
+
+**Body form-data:**
+
+- **profile_picture_url:** The absolute path to the image file in your disk.
+
+#### Request
+
+```json
+{
+  "profile_picture_url": "C:Users\nameDownloadsprofile_picture.webp"
+}
+```
+
+#### Responses
+
+201 Created
+
+```json
+{
+  "status": 200,
+  "msg": "User profile picture successfully updated.",
+  "user": {
+    "id": 1,
+    "username": "Evelyn",
+    "password": "Desine",
+    "email": "Emily@mail.com",
+    "profile_picture_url": "https://ik.imagekit.io/rclzujjqk/Dorothy_Haze_x04e0KVeN.webp",
+    "bio": "Hanging with friends, Concerts, Being Unpredictable",
+    "createdAt": "2023-12-17T04:23:54.918Z",
+    "updatedAt": "2023-12-17T10:00:59.271Z"
+  }
+}
+```
+
+400 Bad Request
+
+```json
+{
+  "error": {
+    "status": 400,
+    "msg": "Profile picture image file is required."
+  }
+}
+```
+
+401 Unauthorized
+
+```json
+{
+  "error": {
+    "status": 401,
+    "msg": "Unauthorized. A valid bearer token is required for access."
+  }
+}
+```
+
+500 Internal Server Error
+
+```json
+{
+  "status": "error",
+  "message": "Internal server error. Please try again later."
+}
+```
+
 ### ??? ???
 
 #### Description

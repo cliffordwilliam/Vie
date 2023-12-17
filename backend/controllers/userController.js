@@ -1,6 +1,7 @@
 const Helper = require("../helper");
 const { User } = require("../models/index");
 const { Op } = require("sequelize");
+const Utils = require("../utils");
 
 module.exports = class UserController {
   static async post(req, res, next) {
@@ -179,9 +180,39 @@ module.exports = class UserController {
   }
   static async patch(req, res, next) {
     try {
+      // get login id
+      const { id } = req.loggedInUser;
+      // get file (need middleware to have .file)
+      if (!req.file) {
+        Helper.customError("Profile picture image file is required.", 400);
+      }
+      // req.file -> base64
+      const imgBase64 = req.file.buffer.toString("base64");
+      // upload base64 and get url
+      const result = await Utils.imagekit.upload({
+        file: imgBase64,
+        fileName: req.file.originalname,
+        tags: [`${req.file.originalname}`],
+      });
+      // imagekit server not working?
+      if (!result.url) {
+        Helper.customError("Failed to upload the profile picture.", 500);
+      }
+      // get url
+      const profile_picture_url = result.url;
+      // PATCH
+      const [count, [user]] = await User.update(
+        { profile_picture_url },
+        {
+          where: { id },
+          returning: true,
+          attributes: { exclude: ["password"] },
+        }
+      );
       res.status(201).json({
         status: 200,
-        msg: "GET.",
+        msg: "User profile picture successfully updated.",
+        user,
       });
     } catch (error) {
       next(error);

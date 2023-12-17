@@ -18,9 +18,9 @@ userRouter.put("/", UserController.put);
 userRouter.delete("/", UserController.delete);
 userRouter.patch(
   "/",
-  Utils.upload.single("profile_picture"),
+  Utils.upload.single("profile_picture_url"), // need upload middleware to have req.file
   UserController.patch
-); // need upload middleware to have req.file
+);
 userRouter.get("/:id", UserController.getId);
 
 // exports
