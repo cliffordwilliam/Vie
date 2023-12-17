@@ -128,9 +128,25 @@ module.exports = class UserController {
   }
   static async getId(req, res, next) {
     try {
+      // get params
+      const { id } = req.params; // user/id
+      // is int?
+      Helper.isInt(id, "User ID");
+      // GET
+      const foundUser = await User.findByPk(id, {
+        attiributes: { exclude: ["password"] },
+      });
+      // not found?
+      if (!foundUser) {
+        Helper.customError(
+          `User not found. No user with the ID ${id} exists.`,
+          404
+        );
+      }
       res.status(201).json({
         status: 200,
-        msg: "GET.",
+        msg: "User successfully retrieved.",
+        user: foundUser,
       });
     } catch (error) {
       next(error);
