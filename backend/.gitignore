@@ -1,0 +1,49 @@
+# Node.js
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Optional: Grunt log files
+logs/
+*.log
+
+# Optional: Cache directories
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Optional: Parcel
+.cache/
+dist/
+
+# Optional: Yarn Integrity file
+.yarn-integrity
+
+# Optional: dotenv environment variables file
+.env
+
+# Optional: Coverage directory used by tools like Istanbul
+coverage/
+
+# Optional: Mac OS system files
+.DS_Store
+
+# Optional: Windows Thumbs.db files
+Thumbs.db
+
+# Optional: Visual Studio Code settings
+.vscode/
+
+# Optional: OS-specific files
+.DS_Store
+Thumbs.db
