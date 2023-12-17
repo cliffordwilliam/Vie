@@ -12,15 +12,15 @@ module.exports = class UserController {
         username,
         password,
       });
-      // GET
-      const foundUser = await User.findOne({
+      // GET - no pass
+      const user = await User.findOne({
         where: { username },
         attributes: { exclude: ["password"] },
       });
       res.status(201).json({
         status: 201,
         msg: "User successfully created.",
-        user: foundUser,
+        user,
       });
     } catch (error) {
       next(error);
@@ -48,18 +48,11 @@ module.exports = class UserController {
         throw new Error("Incorrect password. Please try again.");
       }
       // payload -> token
-      const { id, email, profile_picture_url, bio } = foundUser;
-      const payload = {
-        id,
-        email,
-        profile_picture_url,
-        bio,
-        username,
-        password,
-      };
+      const { id } = foundUser;
+      const payload = { id };
       const token = Helper.payloadToToken(payload);
-      // GET
-      const foundUserWithoutPassword = await User.findOne({
+      // GET - no password
+      const user = await User.findOne({
         where: { username },
         attributes: { exclude: ["password"] },
       });
@@ -67,7 +60,7 @@ module.exports = class UserController {
         status: 200,
         msg: "Login successful.",
         token,
-        user: foundUserWithoutPassword,
+        user,
       });
     } catch (error) {
       next(error);
@@ -133,11 +126,11 @@ module.exports = class UserController {
       // is int?
       Helper.isInt(id, "User ID");
       // GET
-      const foundUser = await User.findByPk(id, {
+      const user = await User.findByPk(id, {
         attributes: { exclude: ["password"] },
       });
       // not found?
-      if (!foundUser) {
+      if (!user) {
         Helper.customError(
           `User not found. No user with the ID ${id} exists.`,
           404
@@ -146,7 +139,7 @@ module.exports = class UserController {
       res.status(201).json({
         status: 200,
         msg: "User successfully retrieved.",
-        user: foundUser,
+        user,
       });
     } catch (error) {
       next(error);
@@ -154,9 +147,31 @@ module.exports = class UserController {
   }
   static async put(req, res, next) {
     try {
-      res.status(201).json({
+      // get login id
+      const { id } = req.loggedInUser;
+      // get body
+      let { username, password, email, bio } = req.body;
+      // PUT
+      let [rowsUpdated, [user]] = await User.update(
+        {
+          username,
+          password,
+          email,
+          bio,
+        },
+        {
+          where: { id },
+          returning: true,
+        }
+      );
+      // GET - no password
+      user = await User.findByPk(id, {
+        attributes: { exclude: ["password"] },
+      });
+      res.status(200).json({
         status: 200,
-        msg: "GET.",
+        msg: "User successfully updated.",
+        user,
       });
     } catch (error) {
       next(error);

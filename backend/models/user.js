@@ -45,12 +45,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       bio: {
         type: DataTypes.STRING,
-        validate: {
-          len: {
-            args: [5, Infinity],
-            msg: "Bio must be at least 5 characters long.",
-          },
-        },
       },
     },
     {
@@ -61,8 +55,7 @@ module.exports = (sequelize, DataTypes) => {
 
   // Before create hash
   User.beforeCreate(async (user) => {
-    const hashedPassword = await Helper.hashPassword(user.password);
-    user.password = hashedPassword;
+    user.password = await Helper.hashPassword(user.password);
   });
 
   return User;

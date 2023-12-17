@@ -42,7 +42,7 @@ module.exports = class Middleware {
       const payload = await Helper.tokenToPayload(token);
       // payload user dont exists? throw
       const foundUser = await User.findOne({
-        where: { username: payload.username },
+        where: { id: payload.id },
       });
       if (!foundUser) {
         Helper.customError("Unauthorized. Your access token is invalid.", 401);

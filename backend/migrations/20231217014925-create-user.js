@@ -36,9 +36,6 @@ module.exports = {
       },
       bio: {
         type: Sequelize.STRING,
-        validate: {
-          validate: { len: [5, Infinity] }, // char len min 5
-        },
       },
       createdAt: {
         allowNull: false,

@@ -383,6 +383,123 @@ GET /user/:id
 }
 ```
 
+### PUT User
+
+#### Description
+
+Update user data based on ID.
+
+#### Endpoint
+
+PUT /user
+
+#### Parameters
+
+**Body:**
+
+- **username:** New user username.
+- **password:** New user password.
+- **email:** New user email.
+- **bio:** New user bio.
+
+#### Request
+
+```json
+{
+  "username": "Evelyn",
+  "password": "Desine",
+  "email": "Evelyn@mail.com",
+  "bio": "Hanging with friends, Concerts, Being Unpredictable."
+}
+```
+
+#### Responses
+
+200 OK
+
+```json
+{
+  "status": 200,
+  "msg": "User successfully updated.",
+  "user": {
+    "id": 1,
+    "username": "Evelyn",
+    "email": "Evelyn@mail.com",
+    "profile_picture_url": null,
+    "bio": "Hanging with friends, Concerts, Being Unpredictable",
+    "createdAt": "2023-12-17T04:23:54.918Z",
+    "updatedAt": "2023-12-17T09:39:23.150Z"
+  }
+}
+```
+
+400 Bad Request
+
+```json
+{
+  "error": {
+    "status": 400,
+    "msg": "Username cannot be empty."
+  }
+}
+```
+
+```json
+{
+  "error": {
+    "status": 400,
+    "msg": "username must be unique"
+  }
+}
+```
+
+```json
+{
+  "error": {
+    "status": 400,
+    "msg": "Password must be at least 5 characters long."
+  }
+}
+```
+
+```json
+{
+  "error": {
+    "status": 400,
+    "msg": "Invalid email format."
+  }
+}
+```
+
+```json
+{
+  "error": {
+    "status": 400,
+    "msg": "email must be unique"
+  }
+}
+```
+
+401 Unauthorized
+
+```json
+{
+  "error": {
+    "status": 401,
+    "msg": "Unauthorized. A valid bearer token is required for access."
+  }
+}
+```
+
+500 Internal Server Error
+
+```json
+{
+  "status": "error",
+  "message": "Internal server error. Please try again later."
+}
+```
+
 ### ??? ???
 
 #### Description
