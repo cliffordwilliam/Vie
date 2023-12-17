@@ -18,7 +18,7 @@ homeRouter.post("/user/login", UserController.login);
 
 // token guard
 homeRouter.use(Middleware.tokenGuard);
-// homeRouter.use("/user", userRouter);
+homeRouter.use("/user", userRouter);
 
 // exports
 module.exports = homeRouter;

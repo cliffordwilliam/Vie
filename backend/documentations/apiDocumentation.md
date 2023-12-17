@@ -24,8 +24,8 @@ POST /user
 
 **Body:**
 
-- **Username:** String, required, unique.
-- **Password:** String, required, characters length minimum is 5.
+- **username:** String, required, unique.
+- **password:** String, required, characters length minimum is 5.
 
 #### Request
 
@@ -110,8 +110,8 @@ POST /user/login
 
 **Body:**
 
-- **Username:** existing username in database.
-- **Password:** password of the existing username.
+- **username:** existing username in database.
+- **password:** password of the existing username.
 
 #### Request
 
@@ -174,7 +174,121 @@ POST /user/login
 
 ---
 
-### 1. ??? ???
+### GET User
+
+#### Description
+
+Returns all the users from database.
+
+#### Endpoint
+
+GET /user
+
+#### Parameters
+
+**Query:**
+
+- **search:** the keyword for the search field to filter from.
+- **searchField:** The thing to be searched upon.
+- **limit:** data per page.
+- **page:** the current page.
+- **sort:** asc or desc.
+- **sortField:** The thing to sort by.
+
+#### Request
+
+```json
+{
+  "search": "Em",
+  "searchField": "username",
+  "limit": 1,
+  "page": 1,
+  "sort": "asc",
+  "sortField": "createdAt"
+}
+```
+
+#### Responses
+
+200 OK
+
+```json
+{
+  "status": 200,
+  "msg": "Users successfully retrieved.",
+  "users": [
+    {
+      "id": 1,
+      "username": "Emily",
+      "email": null,
+      "profile_picture_url": null,
+      "bio": null,
+      "createdAt": "2023-12-17T04:23:54.918Z",
+      "updatedAt": "2023-12-17T04:23:54.918Z"
+    }
+  ]
+}
+```
+
+400 Bad Request
+
+```json
+{
+  "error": {
+    "status": 400,
+    "msg": "Invalid searchField. Please use 'username', 'email' or 'bio'."
+  }
+}
+```
+
+```json
+{
+  "error": {
+    "status": 400,
+    "msg": "Invalid sort. Please use 'asc' or 'desc'."
+  }
+}
+```
+
+```json
+{
+  "error": {
+    "status": 400,
+    "msg": "Invalid sortField. Please use 'username', 'email', 'createdAt', 'updatedAt'."
+  }
+}
+```
+
+401 Unauthorized
+
+```json
+{
+  "error": {
+    "status": 401,
+    "msg": "Unauthorized. A valid bearer token is required for access."
+  }
+}
+```
+
+```json
+{
+  "error": {
+    "status": 401,
+    "msg": "Unauthorized. Your access token is invalid."
+  }
+}
+```
+
+500 Internal Server Error
+
+```json
+{
+  "status": "error",
+  "message": "Internal server error. Please try again later."
+}
+```
+
+### ??? ???
 
 #### Description
 
@@ -200,7 +314,7 @@ POST /user/login
 
 #### Responses
 
-200 Created
+201 Created
 
 ```json
 
@@ -227,7 +341,78 @@ POST /user/login
 }
 ```
 
-403 Forbidden
+403 Forbidden - maybe later check in connections ig got a certain game score that is under par
+
+```json
+{
+  "status": "error",
+  "message": "Forbidden. Insufficient permissions to create a new user."
+}
+```
+
+500 Internal Server Error
+
+```json
+{
+  "status": "error",
+  "message": "Internal server error. Please try again later."
+}
+```
+
+### ??? ???
+
+#### Description
+
+???
+
+#### Endpoint
+
+??? /???
+
+#### Parameters
+
+**???:**
+
+- **???:** ???.
+
+#### Request
+
+```json
+{
+  "???": "???"
+}
+```
+
+#### Responses
+
+201 Created
+
+```json
+
+```
+
+200 OK
+
+```json
+
+```
+
+400 Bad Request
+
+```json
+
+```
+
+401 Unauthorized
+
+```json
+{
+  "status": "error",
+  "message": "Unauthorized. Please provide a valid bearer token."
+}
+```
+
+403 Forbidden - maybe later check in connections ig got a certain game score that is under par
 
 ```json
 {

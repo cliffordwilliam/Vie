@@ -1,5 +1,6 @@
 const Helper = require("../helper");
 const { User } = require("../models/index");
+const { Op } = require("sequelize");
 
 module.exports = class UserController {
   static async post(req, res, next) {
@@ -72,12 +73,54 @@ module.exports = class UserController {
       next(error);
     }
   }
-
   static async get(req, res, next) {
     try {
-      res.status(201).json({
+      // get query
+      let { search, searchField, limit, page, sort, sortField } = req.query; // user/?username=
+      // limit & page -> offset
+      limit = Math.max(parseInt(limit, 10), 1) || 10; // 10 if null or not a number (min 1) always turn to int
+      page = Math.max(parseInt(page, 10), 1) || 1; // 1 if null or not a number (min 1) always turn to int
+      const offset = (page - 1) * limit;
+      // sort -> order
+      const order = [[sortField || "username", sort || "asc"]]; // sortField and sort default values
+      const allowedSortFields = ["username", "email", "createdAt", "updatedAt"]; //check sortField is valid
+      if (!allowedSortFields.includes(order[0][0])) {
+        Helper.customError(
+          "Invalid sortField. Please use 'username', 'email', 'createdAt', 'updatedAt'.",
+          400
+        );
+      }
+      const allowedSort = ["asc", "desc"]; // check sort is valid
+      if (!allowedSort.includes(order[0][1])) {
+        Helper.customError("Invalid sort. Please use 'asc' or 'desc'.", 400);
+      }
+      // search & searchField -> query
+      search = search || ""; // search default values
+      searchField = searchField || "username"; // searchField default values
+      const allowedSearchFields = ["username", "email", "bio"]; // check searchField is valid
+      if (!allowedSearchFields.includes(searchField)) {
+        Helper.customError(
+          "Invalid searchField. Please use 'username', 'email' or 'bio'.",
+          400
+        );
+      }
+      let query = {};
+      if (search) {
+        query[searchField] = { [Op.iLike]: `%${search}%` };
+      }
+      // GET - using (limit,offset,order,query)
+      const users = await User.findAll({
+        attributes: { exclude: ["password"] },
+        limit,
+        offset,
+        order,
+        where: query,
+      });
+      // res status
+      res.status(200).json({
         status: 200,
-        msg: "GET.",
+        msg: `Users successfully retrieved.`,
+        users,
       });
     } catch (error) {
       next(error);
