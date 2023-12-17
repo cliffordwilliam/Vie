@@ -576,6 +576,57 @@ PATCH /user
 }
 ```
 
+### DELETE User
+
+#### Description
+
+Logged in user deletes themselves.
+
+#### Endpoint
+
+DELETE /user
+
+#### Responses
+
+200 OK
+
+```json
+{
+  "status": 200,
+  "msg": "User Emily successfully deleted.",
+  "user": {
+    "id": 1,
+    "username": "Emily",
+    "password": "$2b$10$81LXLIf1egRN51JOTGhanO3G2A3JTWzuz87bACcgOdGztX15LCBPe",
+    "email": null,
+    "profile_picture_url": null,
+    "bio": null,
+    "createdAt": "2023-12-17T10:22:20.848Z",
+    "updatedAt": "2023-12-17T10:22:20.848Z"
+  }
+}
+```
+
+401 Unauthorized
+
+```json
+{
+  "error": {
+    "status": 401,
+    "msg": "Unauthorized. A valid bearer token is required for access."
+  }
+}
+```
+
+500 Internal Server Error
+
+```json
+{
+  "status": "error",
+  "message": "Internal server error. Please try again later."
+}
+```
+
 ### ??? ???
 
 #### Description
@@ -624,8 +675,10 @@ PATCH /user
 
 ```json
 {
-  "status": "error",
-  "message": "Unauthorized. Please provide a valid bearer token."
+  "error": {
+    "status": 401,
+    "msg": "Unauthorized. A valid bearer token is required for access."
+  }
 }
 ```
 
@@ -695,8 +748,10 @@ PATCH /user
 
 ```json
 {
-  "status": "error",
-  "message": "Unauthorized. Please provide a valid bearer token."
+  "error": {
+    "status": 401,
+    "msg": "Unauthorized. A valid bearer token is required for access."
+  }
 }
 ```
 

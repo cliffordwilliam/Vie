@@ -18,6 +18,7 @@ module.exports = class UserController {
         where: { username },
         attributes: { exclude: ["password"] },
       });
+      // res
       res.status(201).json({
         status: 201,
         msg: "User successfully created.",
@@ -57,6 +58,7 @@ module.exports = class UserController {
         where: { username },
         attributes: { exclude: ["password"] },
       });
+      // res
       res.status(200).json({
         status: 200,
         msg: "Login successful.",
@@ -110,7 +112,7 @@ module.exports = class UserController {
         order,
         where: query,
       });
-      // res status
+      // res
       res.status(200).json({
         status: 200,
         msg: `Users successfully retrieved.`,
@@ -137,6 +139,7 @@ module.exports = class UserController {
           404
         );
       }
+      // res
       res.status(201).json({
         status: 200,
         msg: "User successfully retrieved.",
@@ -169,6 +172,7 @@ module.exports = class UserController {
       user = await User.findByPk(id, {
         attributes: { exclude: ["password"] },
       });
+      // res
       res.status(200).json({
         status: 200,
         msg: "User successfully updated.",
@@ -209,6 +213,7 @@ module.exports = class UserController {
           attributes: { exclude: ["password"] },
         }
       );
+      // res
       res.status(201).json({
         status: 200,
         msg: "User profile picture successfully updated.",
@@ -220,9 +225,15 @@ module.exports = class UserController {
   }
   static async delete(req, res, next) {
     try {
-      res.status(201).json({
+      // get login id
+      const { id, username } = req.loggedInUser;
+      // DELETE
+      await User.destroy({ where: { id } });
+      // res
+      res.status(200).json({
         status: 200,
-        msg: "GET.",
+        msg: `User ${username} successfully deleted.`,
+        user: req.loggedInUser,
       });
     } catch (error) {
       next(error);
