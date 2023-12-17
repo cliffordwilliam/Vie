@@ -6,33 +6,39 @@ import Login from "./pages/Login";
 // layout
 import PrivateLayout from "./layouts/PrivateLayout";
 import PublicLayout from "./layouts/PublicLayout";
+import GlobalLayout from "./layouts/GlobalLayout";
 
 const router = createBrowserRouter([
   {
-    element: <PrivateLayout />,
-    loader: () => {
-      if (!localStorage.token) {
-        return redirect("/register");
-      }
-      return null;
-    },
+    element: <GlobalLayout />,
     children: [
       {
-        path: "/",
-        element: <Home />,
+        element: <PrivateLayout />,
+        loader: () => {
+          if (!localStorage.token) {
+            return redirect("/register");
+          }
+          return null;
+        },
+        children: [
+          {
+            path: "/",
+            element: <Home />,
+          },
+        ],
       },
-    ],
-  },
-  {
-    element: <PublicLayout />,
-    children: [
       {
-        path: "/register",
-        element: <Register />,
-      },
-      {
-        path: "/login",
-        element: <Login />,
+        element: <PublicLayout />,
+        children: [
+          {
+            path: "/register",
+            element: <Register />,
+          },
+          {
+            path: "/login",
+            element: <Login />,
+          },
+        ],
       },
     ],
   },

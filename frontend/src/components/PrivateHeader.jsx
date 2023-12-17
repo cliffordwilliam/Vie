@@ -1,7 +1,10 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
 export default function PrivateHeader() {
   return (
-    <>
-      <h1>Private Header</h1>
-    </>
+    <header className="h-flex t ls">
+      <h1>MAIN MENU</h1>
+    </header>
   );
 }

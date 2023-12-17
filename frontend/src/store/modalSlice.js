@@ -4,12 +4,13 @@ const modalSlice = createSlice({
   name: "modal",
   initialState: {
     content: "",
+    isOn: false,
   },
   reducers: {
-    setContent: (state, action) => ({
-      ...state,
-      content: action.payload,
-    }),
+    setContent: (state, action) => {
+      state.content = action.payload.content;
+      state.isOn = action.payload.isOn;
+    },
   },
 });
 
