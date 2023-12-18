@@ -22,15 +22,12 @@ const { Server } = require("socket.io");
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 io.on("connection", (socket) => {
-  console.log(`User connected: ${socket.id}`);
-
   socket.on("join_room", (room) => {
     socket.join(room);
   });
   socket.on("send_message", (data) => {
-    console.log(data);
-    const chats = data.chats;
-    socket.to(data.room).emit("receive_message", chats);
+    const { room, count } = data;
+    socket.to(room).emit("receive_message", count);
   });
 });
 
